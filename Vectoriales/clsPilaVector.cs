@@ -9,8 +9,9 @@ namespace Servicios.Colecciones.Vectoriales
         private int atrLongitud;
         private int atrCapacidad;
         private bool atrFlexible; //Resizin por defecto activado, crece en factor de crecimiento, este factor es 
-        private int atrFactorCrecimiento;//Tendria que ser tenido en cuenta por los constructores
+        private int atrFactorCrecimiento;//Tendria que ser tenido en cuenta por los constructores, se coloca en todos sin distincion
 
+        #region Accesores
         public Tipo[] darItems()
         {
             return atrItems;
@@ -28,7 +29,14 @@ namespace Servicios.Colecciones.Vectoriales
             return atrFactorCrecimiento;
         }
 
-
+        #endregion
+        #region Consultores
+        public bool esFlexible()
+        {
+            return atrFlexible;
+        }
+        #endregion
+        #region Mutadores
         public void ponerItems(Tipo[] prmItems)
         {
             try
@@ -52,8 +60,10 @@ namespace Servicios.Colecciones.Vectoriales
         public void ponerCapacidad(int prmValor)
         {
             atrCapacidad = prmValor;
-        }
+        } 
+        #endregion
 
+        #region Constructores
 
         public clsPilaVector()
         {
@@ -63,7 +73,7 @@ namespace Servicios.Colecciones.Vectoriales
             atrFlexible = true;
 
         }
-        
+
         public clsPilaVector(int prmCapacidad)
         {
             atrLongitud = 0;
@@ -79,6 +89,8 @@ namespace Servicios.Colecciones.Vectoriales
             atrItems = new Tipo[atrCapacidad];
 
         }
+        #endregion
+        #region CRUDs
 
         public bool apilar(Tipo prmItem)
         {
@@ -152,6 +164,6 @@ namespace Servicios.Colecciones.Vectoriales
             }
         }
 
-        
+        #endregion
     }
 }
