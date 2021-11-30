@@ -71,6 +71,7 @@ namespace Servicios.Colecciones.Vectoriales
             atrCapacidad = 1000;
             atrItems = new Tipo[atrCapacidad];
             atrFlexible = true;
+            atrFactorCrecimiento = 1000;
 
         }
 
@@ -80,10 +81,20 @@ namespace Servicios.Colecciones.Vectoriales
             atrCapacidad = prmCapacidad;
             atrItems = new Tipo[atrCapacidad];
             atrFlexible = true;
+            atrFactorCrecimiento = 1000;
         }
 
         public clsPilaVector(int prmCapacidad, bool prmFlexible)
         {
+            atrCapacidad = prmCapacidad;
+            atrFlexible = prmFlexible;
+            atrItems = new Tipo[atrCapacidad];
+            atrFactorCrecimiento = 1000;
+
+        }
+        public clsPilaVector(int prmCapacidad,int prmFactorCrecimiento, bool prmFlexible)
+        {
+            atrFactorCrecimiento = prmFactorCrecimiento;
             atrCapacidad = prmCapacidad;
             atrFlexible = prmFlexible;
             atrItems = new Tipo[atrCapacidad];
@@ -99,10 +110,8 @@ namespace Servicios.Colecciones.Vectoriales
 
                 if (atrLongitud == atrCapacidad)
                 {
-                    prmItem = default;
-                    return false;
-                    //atrCapacidad += 1000;
-                    //Array.Resize(ref atrItems, atrCapacidad);
+                    atrCapacidad += atrFactorCrecimiento;
+                    Array.Resize(ref atrItems, atrCapacidad);
                 }
                 for (int i = atrLongitud - 1; i >= 0; i--)
                 {
