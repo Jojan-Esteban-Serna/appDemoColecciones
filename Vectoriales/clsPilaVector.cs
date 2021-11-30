@@ -77,20 +77,64 @@ namespace Servicios.Colecciones.Vectoriales
 
         public clsPilaVector(int prmCapacidad)
         {
-            atrLongitud = 0;
-            atrCapacidad = prmCapacidad;
-            atrItems = new Tipo[atrCapacidad];
+
+            if(prmCapacidad <= 0 || prmCapacidad >= int.MaxValue/14 + 1000)
+            {
+                atrItems = new Tipo[0];
+                atrLongitud = 0;
+                atrCapacidad = 0;
+            }
+            else
+            {
+                atrLongitud = 0;
+                atrCapacidad = prmCapacidad;
+                atrItems = new Tipo[atrCapacidad];
+               
+            }
+
             atrFlexible = true;
             atrFactorCrecimiento = 1000;
+
         }
-
-        public clsPilaVector(int prmCapacidad, bool prmFlexible)
+        //si es -100 y false, tomar el valor absoluto con la capacidad igual al valor absoluto
+        //si la capacidad es cero, retornar con valor de 100 la capacidad
+        public clsPilaVector(int prmCapacidad, bool prmFlexible)//hacer flexible y no flexible para los casos de prueba, si queda en cero y es no flexible, el factor de crecimiento quedaria en cero
         {
-            atrCapacidad = prmCapacidad;
-            atrFlexible = prmFlexible;
-            atrItems = new Tipo[atrCapacidad];
-            atrFactorCrecimiento = 1000;
 
+            //Si el tamaño no es valido debe ser de capacidad 1000
+            if(prmCapacidad >= int.MaxValue / 14 + 1000 || prmCapacidad <= 0)
+            {
+                atrCapacidad = 1000;
+                if (prmFlexible)
+                {
+                    atrFlexible = prmFlexible;
+                    atrItems = new Tipo[atrCapacidad];
+                    atrFactorCrecimiento = 1000;
+                }
+                else// no es flexible, el factor de crecimiento debe ser cero
+                {
+                    atrFlexible = prmFlexible;
+                    atrItems = new Tipo[atrCapacidad];
+                    atrFactorCrecimiento = 0;
+                }
+
+            } else // el tamaño es valido, puede tener cualquier capacidad
+            {
+                if (prmFlexible)
+                {
+                    atrCapacidad = prmCapacidad;
+                    atrFlexible = prmFlexible;
+                    atrItems = new Tipo[atrCapacidad];
+                    atrFactorCrecimiento = 1000;
+                }
+                else
+                {
+                    atrCapacidad = prmCapacidad;
+                    atrFlexible = prmFlexible;
+                    atrItems = new Tipo[atrCapacidad];
+                    atrFactorCrecimiento = 0;
+                }
+            }
         }
         public clsPilaVector(int prmCapacidad,int prmFactorCrecimiento, bool prmFlexible)
         {
@@ -110,8 +154,16 @@ namespace Servicios.Colecciones.Vectoriales
 
                 if (atrLongitud == atrCapacidad)
                 {
-                    atrCapacidad += atrFactorCrecimiento;
-                    Array.Resize(ref atrItems, atrCapacidad);
+                    if (atrFlexible)
+                    {
+
+                        atrCapacidad += atrFactorCrecimiento;
+                        Array.Resize(ref atrItems, atrCapacidad);
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 for (int i = atrLongitud - 1; i >= 0; i--)
                 {
