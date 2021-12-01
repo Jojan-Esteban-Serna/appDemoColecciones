@@ -102,36 +102,32 @@ namespace Servicios.Colecciones.Vectoriales
         {
 
             //Si el tamaño no es valido debe ser de capacidad 1000
-            if(prmCapacidad >= int.MaxValue / 14 + 1000 || prmCapacidad <= 0)
+            if (prmCapacidad >= int.MaxValue / 14 + 1000 || prmCapacidad <= 0)
             {
-                atrCapacidad = 1000;
+                atrFlexible = prmFlexible; 
                 if (prmFlexible)
                 {
-                    atrFlexible = prmFlexible;
-                    atrItems = new Tipo[atrCapacidad];
+                    atrCapacidad = 0;
                     atrFactorCrecimiento = 1000;
                 }
-                else// no es flexible, el factor de crecimiento debe ser cero
+                else// no es flexible, el factor de crecimiento debe ser cero, //Si no paso el if anterior quiere decir que es falso, enotnces se asigna
                 {
-                    atrFlexible = prmFlexible;
-                    atrItems = new Tipo[atrCapacidad];
+                    atrCapacidad = 1000;
                     atrFactorCrecimiento = 0;
                 }
-
-            } else // el tamaño es valido, puede tener cualquier capacidad
+                atrItems = new Tipo[atrCapacidad];
+            }
+            else // la capacidad es valido, puede tener cualquier capacidad
             {
+                atrCapacidad = prmCapacidad;
+                atrFlexible = prmFlexible;
+                atrItems = new Tipo[atrCapacidad];
                 if (prmFlexible)
                 {
-                    atrCapacidad = prmCapacidad;
-                    atrFlexible = prmFlexible;
-                    atrItems = new Tipo[atrCapacidad];
                     atrFactorCrecimiento = 1000;
                 }
                 else
                 {
-                    atrCapacidad = prmCapacidad;
-                    atrFlexible = prmFlexible;
-                    atrItems = new Tipo[atrCapacidad];
                     atrFactorCrecimiento = 0;
                 }
             }
