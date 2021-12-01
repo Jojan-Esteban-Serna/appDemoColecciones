@@ -77,21 +77,17 @@ namespace Servicios.Colecciones.Vectoriales
 
         public clsPilaVector(int prmCapacidad)
         {
-
-            if(prmCapacidad <= 0 || prmCapacidad >= int.MaxValue/14 + 1000)
+            atrLongitud = 0;
+            if (prmCapacidad <= 0 || prmCapacidad >= int.MaxValue/14 + 1000)
             {
-                atrItems = new Tipo[0];
-                atrLongitud = 0;
                 atrCapacidad = 0;
             }
             else
             {
-                atrLongitud = 0;
                 atrCapacidad = prmCapacidad;
-                atrItems = new Tipo[atrCapacidad];
                
             }
-
+            atrItems = new Tipo[atrCapacidad];
             atrFlexible = true;
             atrFactorCrecimiento = 1000;
 
