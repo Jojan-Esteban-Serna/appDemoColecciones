@@ -1,15 +1,83 @@
 ﻿using Servicios.Colecciones.Interfaces;
 using System;
+
 namespace Servicios.Colecciones.Vectoriales
 {
     public class clsPilaVector<Tipo> : iPila<Tipo> where Tipo : IComparable
     {
-        
+        #region Atributos
         private Tipo[] atrItems;
-        private int atrLongitud;
-        private int atrCapacidad;
-        private bool atrFlexible; //Resizin por defecto activado, crece en factor de crecimiento, este factor es 
-        private int atrFactorCrecimiento;//Tendria que ser tenido en cuenta por los constructores, se coloca en todos sin distincion
+        private int atrLongitud = 0;
+        private int atrCapacidad= 0;
+        private bool atrDinamica = true; //Resizing por defecto activado, crece en factor de crecimiento, este factor es 
+        private int atrFactorCrecimiento = 1000;//Tendria que ser tenido en cuenta por los constructores, se coloca en todos sin distincion
+
+        #endregion
+        #region Metodos
+        #region Constructores
+
+        public clsPilaVector()
+        {
+            atrItems = new Tipo[atrCapacidad];
+        }
+        public clsPilaVector(int prmCapacidad)
+        {
+            if(prmCapacidad>0 && prmCapacidad <= int.MaxValue/16)
+            {
+                atrCapacidad = prmCapacidad;
+                if (prmCapacidad == int.MaxValue / 16)
+                {
+                    atrFactorCrecimiento = 0;
+                    atrDinamica = false;
+                }
+            }
+            atrItems = new Tipo[atrCapacidad];
+        }
+        
+        public clsPilaVector(int prmCapacidad, bool prmFlexible)
+        {
+            if (prmCapacidad > 0 && prmCapacidad <= int.MaxValue / 16)
+            {
+                atrCapacidad = prmCapacidad;
+                atrFactorCrecimiento = prmFlexible ? 1000 : 0;
+                atrDinamica = prmFlexible;
+                if (prmCapacidad == int.MaxValue / 16)
+                {
+                    atrFactorCrecimiento = 0;
+                    atrDinamica = false;
+                }
+            }
+            atrItems = new Tipo[atrCapacidad];
+        }
+        public clsPilaVector(int prmCapacidad, int prmFactorCrecimiento)
+        {
+            if (prmCapacidad > 0 && prmCapacidad <= int.MaxValue / 16)
+            {
+                if(prmFactorCrecimiento>= 0 && prmFactorCrecimiento < int.MaxValue / 16)
+                {
+                    if(prmFactorCrecimiento == 0) { atrDinamica = false; }
+                    atrCapacidad = prmCapacidad;
+                    atrFactorCrecimiento = prmFactorCrecimiento;
+                    if(prmCapacidad == int.MaxValue / 16)
+                    {
+                        atrCapacidad = int.MaxValue / 16;
+                        atrFactorCrecimiento = 0;
+                        atrDinamica = false;
+                    }
+                    if(prmCapacidad == int.MaxValue/16 && prmFactorCrecimiento != 0)
+                    {
+                        atrCapacidad = 0;
+                        atrFactorCrecimiento = 1000;
+                        atrDinamica = true;
+                    }
+                    
+                }
+
+            }
+
+            atrItems = new Tipo[atrCapacidad];
+        }
+        #endregion
 
         #region Accesores
         public Tipo[] darItems()
@@ -31,113 +99,76 @@ namespace Servicios.Colecciones.Vectoriales
 
         #endregion
         #region Consultores
-        public bool esFlexible()
+        public bool esDinamica()
         {
-            return atrFlexible;
+            return atrDinamica;
         }
         #endregion
         #region Mutadores
-        public void ponerItems(Tipo[] prmItems)
+        public bool ponerItems(Tipo[] prmVector)
         {
             try
             {
-                atrItems = prmItems;
-                atrLongitud = prmItems.Length;
-                atrCapacidad = prmItems.Length;
+                if(prmVector.Length >= 0 && prmVector.Length <= int.MaxValue/16)
+                {
+                    atrItems = prmVector;
+                    atrLongitud = prmVector.Length;
+                    atrCapacidad = prmVector.Length;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                
             }
             catch (Exception)
             {
 
-                return;
+                return false;
             }
         }
 
-        public void ponerLongitud(int prmValor)
+        public bool ponerLongitud(int prmValor)
         {
             atrLongitud = prmValor;
+            return true;
         }
 
-        public void ponerCapacidad(int prmValor)
+        public bool ponerCapacidad(int prmValor)
         {
             atrCapacidad = prmValor;
-        } 
-        #endregion
-
-        #region Constructores
-
-        public clsPilaVector()
-        {
-            atrLongitud = 0;
-            atrCapacidad = 1000;
-            atrItems = new Tipo[atrCapacidad];
-            atrFlexible = true;
-            atrFactorCrecimiento = 1000;
-
+            return true;
         }
 
-        public clsPilaVector(int prmCapacidad)
+        public bool ajustarFlexibilidad(bool prmValor)
         {
-            atrLongitud = 0;
-            if (prmCapacidad <= 0 || prmCapacidad >= int.MaxValue/14 + 1000)
+            if(atrCapacidad == int.MaxValue / 16 || atrCapacidad == 0)
             {
-                atrCapacidad = 0;
+                return false;
             }
             else
             {
-                atrCapacidad = prmCapacidad;
-               
-            }
-            atrItems = new Tipo[atrCapacidad];
-            atrFlexible = true;
-            atrFactorCrecimiento = 1000;
-
-        }
-        //si es -100 y false, tomar el valor absoluto con la capacidad igual al valor absoluto
-        //si la capacidad es cero, retornar con valor de 100 la capacidad
-        public clsPilaVector(int prmCapacidad, bool prmFlexible)//hacer flexible y no flexible para los casos de prueba, si queda en cero y es no flexible, el factor de crecimiento quedaria en cero
-        {
-
-            //Si el tamaño no es valido debe ser de capacidad 1000
-            if (prmCapacidad >= int.MaxValue / 14 + 1000 || prmCapacidad <= 0)
-            {
-                atrFlexible = prmFlexible; 
-                if (prmFlexible)
-                {
-                    atrCapacidad = 0;
-                    atrFactorCrecimiento = 1000;
-                }
-                else// no es flexible, el factor de crecimiento debe ser cero, //Si no paso el if anterior quiere decir que es falso, enotnces se asigna
-                {
-                    atrCapacidad = 1000;
+                atrDinamica = prmValor;
+                if (!atrDinamica)
                     atrFactorCrecimiento = 0;
-                }
-                atrItems = new Tipo[atrCapacidad];
+                
             }
-            else // la capacidad es valido, puede tener cualquier capacidad
-            {
-                atrCapacidad = prmCapacidad;
-                atrFlexible = prmFlexible;
-                atrItems = new Tipo[atrCapacidad];
-                if (prmFlexible)
-                {
-                    atrFactorCrecimiento = 1000;
-                }
-                else
-                {
-                    atrFactorCrecimiento = 0;
-                }
-            }
+            
+            return true;
         }
-        public clsPilaVector(int prmCapacidad,int prmFactorCrecimiento, bool prmFlexible)
-        {
-            atrFactorCrecimiento = prmFactorCrecimiento;
-            atrCapacidad = prmCapacidad;
-            atrFlexible = prmFlexible;
-            atrItems = new Tipo[atrCapacidad];
 
+        public bool ajustarFactorCrecimiento(int prmValor)
+        {
+            if(prmValor>= int.MaxValue / 16)
+            {
+                return false;
+            }
+            atrFactorCrecimiento = prmValor;
+            return true;
         }
         #endregion
-        #region CRUDs
+         #region CRUDs
 
         public bool apilar(Tipo prmItem)
         {
@@ -146,7 +177,7 @@ namespace Servicios.Colecciones.Vectoriales
 
                 if (atrLongitud == atrCapacidad)
                 {
-                    if (atrFlexible)
+                    if (atrDinamica)
                     {
 
                         atrCapacidad += atrFactorCrecimiento;
@@ -217,6 +248,8 @@ namespace Servicios.Colecciones.Vectoriales
             }
         }
 
+        #endregion 
         #endregion
+        //el basico para los espacios
     }
 }
