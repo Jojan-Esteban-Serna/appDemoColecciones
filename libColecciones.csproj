@@ -46,6 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\iCola.cs" />
+    <Compile Include="Interfaces\iLista.cs" />
+    <Compile Include="Vectoriales\clsColaVector.cs" />
+    <Compile Include="Vectoriales\clsListaVector.cs" />
     <Compile Include="Vectoriales\clsPilaVector.cs" />
     <Compile Include="Interfaces\iPila.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
