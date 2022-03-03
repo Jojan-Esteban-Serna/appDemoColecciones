@@ -6,20 +6,25 @@ namespace Servicios.Colecciones.Vectoriales
     public class clsPilaVector<Tipo> : iPila<Tipo> where Tipo : IComparable
     {
         #region Atributos
+
         private Tipo[] atrItems;
         private int atrLongitud = 0;
         private int atrCapacidad = 0;
         private bool atrDinamica = true;
         private int atrFactorCrecimiento = 1000;
         private int atrBorde = int.MaxValue / 16;
-        #endregion
+
+        #endregion Atributos
+
         #region Metodos
+
         #region Constructores
 
         public clsPilaVector()
         {
             atrItems = new Tipo[atrCapacidad];
         }
+
         public clsPilaVector(int prmCapacidad)
         {
             if (validarCapacidad(prmCapacidad))
@@ -71,6 +76,7 @@ namespace Servicios.Colecciones.Vectoriales
             }
 
             #region Antigua implementación
+
             /*if(prmCapacidad == 0 && prmFactorCrecimiento > 0 && prmFactorCrecimiento <atrBorde)
             {
                 atrItems = new Tipo[atrCapacidad];
@@ -95,7 +101,8 @@ namespace Servicios.Colecciones.Vectoriales
                 }
             }
             atrItems = new Tipo[atrCapacidad];*/
-            #endregion
+
+            #endregion Antigua implementación
         }
 
         public bool validarCapacidad(int prmCapacidad)
@@ -103,39 +110,48 @@ namespace Servicios.Colecciones.Vectoriales
             return prmCapacidad > 0 && prmCapacidad <= atrBorde;
         }
 
-        #endregion
+        #endregion Constructores
 
         #region Accesores
+
         public Tipo[] darItems()
         {
             return atrItems;
         }
+
         public int darLongitud()
         {
             return atrLongitud;
         }
+
         public int darCapacidad()
         {
             return atrCapacidad;
         }
+
         public int darFactorCrecimiento()
         {
             return atrFactorCrecimiento;
         }
 
-        #endregion
+        #endregion Accesores
+
         #region Consultores
+
         public bool esDinamica()
         {
             return atrDinamica;
         }
-        #endregion
+
+        #endregion Consultores
+
         #region Mutadores
+
         public bool ponerItems(Tipo[] prmVector)
         {
             try
             {
-                if(prmVector.Length >= 0 && prmVector.Length <= atrBorde)
+                if (prmVector.Length >= 0 && prmVector.Length <= atrBorde)
                 {
                     atrItems = prmVector;
                     atrLongitud = prmVector.Length;
@@ -148,11 +164,9 @@ namespace Servicios.Colecciones.Vectoriales
                 {
                     return false;
                 }
-                
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
@@ -171,7 +185,7 @@ namespace Servicios.Colecciones.Vectoriales
 
         public bool ajustarFlexibilidad(bool prmValor)
         {
-            if(atrCapacidad == atrBorde || atrCapacidad == 0)
+            if (atrCapacidad == atrBorde || atrCapacidad == 0)
             {
                 return false;
             }
@@ -180,28 +194,27 @@ namespace Servicios.Colecciones.Vectoriales
                 atrDinamica = prmValor;
                 if (!atrDinamica)
                     atrFactorCrecimiento = 0;
-                
             }
-            
+
             return true;
         }
 
         public bool ajustarFactorCrecimiento(int prmValor)
         {
-            if(prmValor>= atrBorde)
+            if (prmValor >= atrBorde)
             {
                 return false;
             }
             atrFactorCrecimiento = prmValor;
             return true;
         }
-        #endregion
+
+        #endregion Mutadores
+
         #region CRUDs
 
         public bool apilar(Tipo prmItem)
         {
-
-
             if (atrLongitud == atrCapacidad)
             {
                 if (atrDinamica)
@@ -224,7 +237,6 @@ namespace Servicios.Colecciones.Vectoriales
             atrItems[0] = prmItem;
             atrLongitud++;
             return true;
-
         }
 
         public bool desapilar(ref Tipo prmItem)
@@ -237,7 +249,7 @@ namespace Servicios.Colecciones.Vectoriales
                 }
                 prmItem = atrItems[0];
 
-                Array.Copy(atrItems, 1, atrItems, 0, atrLongitud-1);
+                Array.Copy(atrItems, 1, atrItems, 0, atrLongitud - 1);
                 /*
                 for (int i = 0; i < atrLongitud - 1; i++)
                 {
@@ -249,7 +261,6 @@ namespace Servicios.Colecciones.Vectoriales
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
@@ -267,7 +278,6 @@ namespace Servicios.Colecciones.Vectoriales
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
@@ -286,10 +296,12 @@ namespace Servicios.Colecciones.Vectoriales
                 atrItems[atrLongitud - 1 - varIndice] = varItemActual;
             }
             return true;
-
         }
-        #endregion 
-        #endregion
+
+        #endregion CRUDs
+
+        #endregion Metodos
+
         //el basico para los espacios
     }
 }

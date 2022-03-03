@@ -1,27 +1,30 @@
-﻿using System;
-using Servicios.Colecciones.Interfaces;
+﻿using Servicios.Colecciones.Interfaces;
+using System;
 
 namespace Servicios.Colecciones.Vectoriales
 {
-    public class clsListaVector<Tipo> :iLista<Tipo> where Tipo:IComparable
+    public class clsListaVector<Tipo> : iLista<Tipo> where Tipo : IComparable
     {
         #region Atributos
+
         private Tipo[] atrItems;
         private int atrLongitud = 0;
         private int atrCapacidad = 0;
         private bool atrDinamica = true;
         private int atrFactorCrecimiento = 1000;
         private int atrBorde = int.MaxValue / 16;
-        #endregion
+
+        #endregion Atributos
+
         #region Metodos
 
         #region Constructores
+
         public clsListaVector()
         {
-
             atrItems = new Tipo[atrCapacidad];
-
         }
+
         public clsListaVector(int prmCapacidad)
         {
             if (validarCapacidad(prmCapacidad))
@@ -34,8 +37,8 @@ namespace Servicios.Colecciones.Vectoriales
                 }
             }
             atrItems = new Tipo[atrCapacidad];
-
         }
+
         public clsListaVector(int prmCapacidad, bool prmFlexible)
         {
             if (validarCapacidad(prmCapacidad))
@@ -51,6 +54,7 @@ namespace Servicios.Colecciones.Vectoriales
             }
             atrItems = new Tipo[atrCapacidad];
         }
+
         public clsListaVector(int prmCapacidad, int prmFactorCrecimiento)
         {
             if (prmCapacidad < 0 || prmCapacidad > atrBorde || prmFactorCrecimiento < 0 || prmFactorCrecimiento > atrBorde)
@@ -76,8 +80,8 @@ namespace Servicios.Colecciones.Vectoriales
         {
             return prmCapacidad > 0 && prmCapacidad <= atrBorde;
         }
-        
-        #endregion
+
+        #endregion Constructores
 
         #region Accesores
 
@@ -101,7 +105,7 @@ namespace Servicios.Colecciones.Vectoriales
             return atrFactorCrecimiento;
         }
 
-        #endregion
+        #endregion Accesores
 
         #region Consultores
 
@@ -110,9 +114,9 @@ namespace Servicios.Colecciones.Vectoriales
             return atrDinamica;
         }
 
-        #endregion
-        #region Mutadores
+        #endregion Consultores
 
+        #region Mutadores
 
         public bool ponerItems(Tipo[] prmVector)
         {
@@ -131,11 +135,9 @@ namespace Servicios.Colecciones.Vectoriales
                 {
                     return false;
                 }
-
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
@@ -151,7 +153,6 @@ namespace Servicios.Colecciones.Vectoriales
                 atrDinamica = prmValor;
                 if (!atrDinamica)
                     atrFactorCrecimiento = 0;
-
             }
 
             return true;
@@ -166,9 +167,11 @@ namespace Servicios.Colecciones.Vectoriales
             atrFactorCrecimiento = prmValor;
             return true;
         }
-        #endregion
+
+        #endregion Mutadores
 
         #region CRUDs
+
         public bool agregar(Tipo prmItem)
         {
             if (atrLongitud == atrCapacidad)
@@ -190,7 +193,7 @@ namespace Servicios.Colecciones.Vectoriales
 
         public bool insertarEn(int prmIndice, Tipo prmItem)
         {
-            if(prmIndice < 0 || prmIndice > atrLongitud)
+            if (prmIndice < 0 || prmIndice > atrLongitud)
             {
                 return false;
             }
@@ -208,8 +211,7 @@ namespace Servicios.Colecciones.Vectoriales
                 }
             }
 
-
-            if(atrLongitud-prmIndice < 0)
+            if (atrLongitud - prmIndice < 0)
             {
                 return false;
             }
@@ -222,7 +224,7 @@ namespace Servicios.Colecciones.Vectoriales
 
         public bool extraerEn(int prmIndice, ref Tipo prmItem)
         {
-            if(prmIndice < 0 || atrLongitud == 0 || prmIndice >= atrLongitud)
+            if (prmIndice < 0 || atrLongitud == 0 || prmIndice >= atrLongitud)
             {
                 prmItem = default(Tipo);
                 return false;
@@ -236,7 +238,7 @@ namespace Servicios.Colecciones.Vectoriales
 
         public bool modificarEn(int prmIndice, Tipo prmItem)
         {
-            if(prmIndice < 0 || atrLongitud == 0 || prmIndice >= atrLongitud)
+            if (prmIndice < 0 || atrLongitud == 0 || prmIndice >= atrLongitud)
             {
                 return false;
             }
@@ -260,7 +262,7 @@ namespace Servicios.Colecciones.Vectoriales
         {
             foreach (Tipo varItem in atrItems)
             {
-                if(varItem.CompareTo(prmItem) == 0)
+                if (varItem.CompareTo(prmItem) == 0)
                 {
                     return true;
                 }
@@ -270,7 +272,7 @@ namespace Servicios.Colecciones.Vectoriales
 
         public int encontrarA(Tipo prmItem)
         {
-            for(int varIndice = 0; varIndice <atrLongitud; varIndice++)
+            for (int varIndice = 0; varIndice < atrLongitud; varIndice++)
             {
                 if (atrItems[varIndice].CompareTo(prmItem) == 0)
                 {
@@ -283,12 +285,12 @@ namespace Servicios.Colecciones.Vectoriales
 
         public bool reversar()
         {
-            if(atrLongitud == 0)
+            if (atrLongitud == 0)
             {
                 return false;
             }
             int varMitad = (int)atrLongitud / 2;
-            for(int varIndice = 0; varIndice < varMitad; varIndice++)
+            for (int varIndice = 0; varIndice < varMitad; varIndice++)
             {
                 Tipo varItemActual = atrItems[varIndice];
                 atrItems[varIndice] = atrItems[atrLongitud - 1 - varIndice];
@@ -296,8 +298,9 @@ namespace Servicios.Colecciones.Vectoriales
             }
             return true;
         }
-        #endregion
-        #endregion
+
+        #endregion CRUDs
+
+        #endregion Metodos
     }
 }
-    

@@ -1,11 +1,12 @@
-﻿using System;
-using Servicios.Colecciones.Interfaces;
+﻿using Servicios.Colecciones.Interfaces;
+using System;
 
 namespace Servicios.Colecciones.Vectoriales
 {
-    public class clsColaVector<Tipo> : iCola<Tipo> where Tipo:IComparable
+    public class clsColaVector<Tipo> : iCola<Tipo> where Tipo : IComparable
     {
-        #region Atributos 
+        #region Atributos
+
         private Tipo[] atrItems;
         private int atrLongitud = 0;
         private int atrCapacidad = 0;
@@ -13,14 +14,17 @@ namespace Servicios.Colecciones.Vectoriales
         private int atrFactorCrecimiento = 1000;
         private int atrBorde = int.MaxValue / 16;
 
-        #endregion
+        #endregion Atributos
 
         #region Metodos
+
         #region Constructores
+
         public clsColaVector()
         {
             atrItems = new Tipo[atrCapacidad];
         }
+
         public clsColaVector(int prmCapacidad)
         {
             if (validarCapacidad(prmCapacidad))
@@ -34,6 +38,7 @@ namespace Servicios.Colecciones.Vectoriales
             }
             atrItems = new Tipo[atrCapacidad];
         }
+
         public clsColaVector(int prmCapacidad, bool prmFlexible)
         {
             if (validarCapacidad(prmCapacidad))
@@ -49,6 +54,7 @@ namespace Servicios.Colecciones.Vectoriales
             }
             atrItems = new Tipo[atrCapacidad];
         }
+
         public clsColaVector(int prmCapacidad, int prmFactorCrecimiento)
         {
             if (prmCapacidad < 0 || prmCapacidad > atrBorde || prmFactorCrecimiento < 0 || prmFactorCrecimiento > atrBorde)
@@ -67,15 +73,18 @@ namespace Servicios.Colecciones.Vectoriales
                 atrFactorCrecimiento = prmFactorCrecimiento;
                 atrDinamica = atrFactorCrecimiento == 0 || prmCapacidad == atrBorde ? false : true;
                 atrItems = new Tipo[atrCapacidad];
-
             }
         }
+
         public bool validarCapacidad(int prmCapacidad)
         {
             return prmCapacidad > 0 && prmCapacidad <= atrBorde;
         }
-        #endregion
+
+        #endregion Constructores
+
         #region Accesores
+
         public Tipo[] darItems()
         {
             return atrItems;
@@ -100,9 +109,11 @@ namespace Servicios.Colecciones.Vectoriales
         {
             return atrFactorCrecimiento;
         }
-        #endregion
+
+        #endregion Accesores
 
         #region Mutadores
+
         public bool ponerItems(Tipo[] prmVector)
         {
             try
@@ -120,14 +131,13 @@ namespace Servicios.Colecciones.Vectoriales
                 {
                     return false;
                 }
-
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
+
         public bool ajustarFactorCrecimiento(int prmValor)
         {
             if (prmValor >= atrBorde)
@@ -137,6 +147,7 @@ namespace Servicios.Colecciones.Vectoriales
             atrFactorCrecimiento = prmValor;
             return true;
         }
+
         public bool ajustarFlexibilidad(bool prmValor)
         {
             if (atrCapacidad == atrBorde || atrCapacidad == 0)
@@ -148,19 +159,20 @@ namespace Servicios.Colecciones.Vectoriales
                 atrDinamica = prmValor;
                 if (!atrDinamica)
                     atrFactorCrecimiento = 0;
-
             }
 
             return true;
         }
-        #endregion
+
+        #endregion Mutadores
 
         #region CRUDS
+
         public bool encolar(Tipo prmItem)
         {
             try
             {
-                if(atrLongitud == atrCapacidad)
+                if (atrLongitud == atrCapacidad)
                 {
                     if (atrDinamica)
                     {
@@ -181,6 +193,7 @@ namespace Servicios.Colecciones.Vectoriales
                 return false;
             }
         }
+
         public bool desencolar(ref Tipo prmItem)
         {
             try
@@ -206,6 +219,7 @@ namespace Servicios.Colecciones.Vectoriales
                 return false;
             }
         }
+
         public bool revisar(ref Tipo prmItem)
         {
             try
@@ -219,10 +233,10 @@ namespace Servicios.Colecciones.Vectoriales
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
+
         public bool reversar()
         {
             if (atrLongitud == 0)
@@ -237,11 +251,10 @@ namespace Servicios.Colecciones.Vectoriales
                 atrItems[atrLongitud - 1 - varIndice] = varItemActual;
             }
             return true;
-
         }
-        #endregion
-        #endregion
 
+        #endregion CRUDS
 
+        #endregion Metodos
     }
 }
