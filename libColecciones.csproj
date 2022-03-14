@@ -46,20 +46,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DobleEnlazadas\clsColaDobleEnlazada.cs" />
-    <Compile Include="Enlazadas\clsColaEnlazada.cs" />
-    <Compile Include="DobleEnlazadas\clsListaDobleEnlazada.cs" />
-    <Compile Include="Enlazadas\clsListaEnlazada.cs" />
-    <Compile Include="Enlazadas\clsNodoEnlazado.cs" />
-    <Compile Include="DobleEnlazadas\clsNodoDobleEnlazado.cs" />
-    <Compile Include="DobleEnlazadas\clsPilaDobleEnlazada.cs" />
-    <Compile Include="Enlazadas\clsPilaEnlazada.cs" />
-    <Compile Include="Interfaces\iCola.cs" />
-    <Compile Include="Interfaces\iLista.cs" />
-    <Compile Include="Vectoriales\clsColaVector.cs" />
-    <Compile Include="Vectoriales\clsListaVector.cs" />
-    <Compile Include="Vectoriales\clsPilaVector.cs" />
-    <Compile Include="Interfaces\iPila.cs" />
+    <Compile Include="Servicios\Colecciones\DobleEnlazadas\clsColaDobleEnlazada.cs" />
+    <Compile Include="Servicios\Colecciones\Enlazadas\clsColaEnlazada.cs" />
+    <Compile Include="Servicios\Colecciones\DobleEnlazadas\clsListaDobleEnlazada.cs" />
+    <Compile Include="Servicios\Colecciones\Enlazadas\clsListaEnlazada.cs" />
+    <Compile Include="Servicios\Colecciones\Interfaces\iTAD.cs" />
+    <Compile Include="Servicios\Colecciones\Nodos\clsNodo.cs" />
+    <Compile Include="Servicios\Colecciones\Nodos\clsNodoDobleEnlazado.cs" />
+    <Compile Include="Servicios\Colecciones\Nodos\clsNodoEnlazado.cs" />
+    <Compile Include="Servicios\Colecciones\DobleEnlazadas\clsPilaDobleEnlazada.cs" />
+    <Compile Include="Servicios\Colecciones\Enlazadas\clsPilaEnlazada.cs" />
+    <Compile Include="Servicios\Colecciones\Interfaces\iCola.cs" />
+    <Compile Include="Servicios\Colecciones\Interfaces\iLista.cs" />
+    <Compile Include="Servicios\Colecciones\Tads\clsTAD.cs" />
+    <Compile Include="Servicios\Colecciones\Tads\clsTADDobleEnlazado.cs" />
+    <Compile Include="Servicios\Colecciones\Tads\clsTADEnlazado.cs" />
+    <Compile Include="Servicios\Colecciones\Tads\clsTADVectorial.cs" />
+    <Compile Include="Servicios\Colecciones\Vectoriales\clsColaVector.cs" />
+    <Compile Include="Servicios\Colecciones\Vectoriales\clsListaVector.cs" />
+    <Compile Include="Servicios\Colecciones\Vectoriales\clsPilaVector.cs" />
+    <Compile Include="Servicios\Colecciones\Interfaces\iPila.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -9,7 +9,5 @@ namespace Servicios.Colecciones.Interfaces
         bool desencolar(ref Tipo prmItem);
 
         bool revisar(ref Tipo prmItem);
-
-        bool reversar();
     }
 }

@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace Servicios.Colecciones.Enlazadas
+namespace Servicios.Colecciones.Nodos
 {
-    public class clsNodoEnlazado<Tipo> where Tipo : IComparable
+    public class clsNodoEnlazado<Tipo> : clsNodo<Tipo> where Tipo : IComparable
     {
         #region Atributos
 
-        private Tipo atrItem;
         private clsNodoEnlazado<Tipo> atrRefSiguiente;
 
         #endregion Atributos
@@ -46,20 +45,9 @@ namespace Servicios.Colecciones.Enlazadas
             return atrRefSiguiente;
         }
 
-        public Tipo darItem()
-        {
-            return atrItem;
-        }
-
         #endregion Accesores
 
         #region Mutadores
-
-        public bool ponerItem(Tipo prmItem)
-        {
-            atrItem = prmItem;
-            return true;
-        }
 
         public bool ponerSiguiente(clsNodoEnlazado<Tipo> prmSiguiente)
         {

@@ -1,31 +1,28 @@
-﻿using Servicios.Colecciones.Interfaces;
-using System;
+﻿using System;
 
-namespace Servicios.Colecciones.Vectoriales
+namespace Servicios.Colecciones.Tads
 {
-    public class clsListaVector<Tipo> : iLista<Tipo> where Tipo : IComparable
+    public class clsTADVectorial<Tipo> : clsTAD<Tipo> where Tipo : IComparable
     {
         #region Atributos
 
-        private Tipo[] atrItems;
-        private int atrLongitud = 0;
-        private int atrCapacidad = 0;
-        private bool atrDinamica = true;
-        private int atrFactorCrecimiento = 1000;
-        private int atrBorde = int.MaxValue / 16;
+        protected Tipo[] atrItems;
+        protected int atrCapacidad = 0;
+        protected bool atrDinamica = true;
+        protected int atrFactorCrecimiento = 1000;
 
         #endregion Atributos
 
         #region Metodos
 
-        #region Constructores
+        #region Contructores
 
-        public clsListaVector()
+        protected clsTADVectorial()
         {
             atrItems = new Tipo[atrCapacidad];
         }
 
-        public clsListaVector(int prmCapacidad)
+        protected clsTADVectorial(int prmCapacidad)
         {
             if (validarCapacidad(prmCapacidad))
             {
@@ -39,7 +36,7 @@ namespace Servicios.Colecciones.Vectoriales
             atrItems = new Tipo[atrCapacidad];
         }
 
-        public clsListaVector(int prmCapacidad, bool prmFlexible)
+        protected clsTADVectorial(int prmCapacidad, bool prmFlexible)
         {
             if (validarCapacidad(prmCapacidad))
             {
@@ -55,7 +52,7 @@ namespace Servicios.Colecciones.Vectoriales
             atrItems = new Tipo[atrCapacidad];
         }
 
-        public clsListaVector(int prmCapacidad, int prmFactorCrecimiento)
+        protected clsTADVectorial(int prmCapacidad, int prmFactorCrecimiento)
         {
             if (prmCapacidad < 0 || prmCapacidad > atrBorde || prmFactorCrecimiento < 0 || prmFactorCrecimiento > atrBorde)
             {
@@ -76,23 +73,18 @@ namespace Servicios.Colecciones.Vectoriales
             }
         }
 
-        public bool validarCapacidad(int prmCapacidad)
+        protected bool validarCapacidad(int prmCapacidad)
         {
             return prmCapacidad > 0 && prmCapacidad <= atrBorde;
         }
 
-        #endregion Constructores
+        #endregion Contructores
 
         #region Accesores
 
-        public Tipo[] darItems()
+        public override Tipo[] darItems()
         {
             return atrItems;
-        }
-
-        public int darLongitud()
-        {
-            return atrLongitud;
         }
 
         public int darCapacidad()
@@ -118,7 +110,7 @@ namespace Servicios.Colecciones.Vectoriales
 
         #region Mutadores
 
-        public bool ponerItems(Tipo[] prmVector)
+        public override bool ponerItems(Tipo[] prmVector)
         {
             try
             {
@@ -168,30 +160,35 @@ namespace Servicios.Colecciones.Vectoriales
             return true;
         }
 
+        public bool ponerCapacidad(int prmValor)
+        {
+            if (atrCapacidad <= 0 || atrCapacidad > atrBorde)
+            {
+                return false;
+            }
+            atrCapacidad = prmValor;
+            return true;
+        }
+
         #endregion Mutadores
 
         #region CRUDs
 
-        public bool agregar(Tipo prmItem)
+        protected override bool extraer(ref Tipo prmItem, int prmIndice)
         {
-            if (atrLongitud == atrCapacidad)
+            if (prmIndice < 0 || atrLongitud == 0 || prmIndice >= atrLongitud)
             {
-                if (atrDinamica)
-                {
-                    atrCapacidad += atrFactorCrecimiento;
-                    Array.Resize(ref atrItems, atrCapacidad);
-                }
-                else
-                {
-                    return false;
-                }
+                //prmItem = default(Tipo);
+                return false;
             }
-            atrItems[atrLongitud] = prmItem;
-            atrLongitud++;
+
+            prmItem = atrItems[prmIndice];
+            Array.Copy(atrItems, prmIndice + 1, atrItems, prmIndice, atrLongitud - prmIndice - 1);
+            atrLongitud--;
             return true;
         }
 
-        public bool insertarEn(int prmIndice, Tipo prmItem)
+        protected override bool insertar(Tipo prmItem, int prmIndice)
         {
             if (prmIndice < 0 || prmIndice > atrLongitud)
             {
@@ -222,43 +219,18 @@ namespace Servicios.Colecciones.Vectoriales
             return true;
         }
 
-        public bool extraerEn(int prmIndice, ref Tipo prmItem)
+        protected override bool recuperar(ref Tipo prmItem, int prmIndice)
         {
             if (prmIndice < 0 || atrLongitud == 0 || prmIndice >= atrLongitud)
             {
-                prmItem = default(Tipo);
-                return false;
-            }
-
-            prmItem = atrItems[prmIndice];
-            Array.Copy(atrItems, prmIndice + 1, atrItems, prmIndice, atrLongitud - prmIndice - 1);
-            atrLongitud--;
-            return true;
-        }
-
-        public bool modificarEn(int prmIndice, Tipo prmItem)
-        {
-            if (prmIndice < 0 || atrLongitud == 0 || prmIndice >= atrLongitud)
-            {
-                return false;
-            }
-
-            atrItems[prmIndice] = prmItem;
-            return true;
-        }
-
-        public bool recuperarEn(int prmIndice, ref Tipo prmItem)
-        {
-            if (prmIndice < 0 || atrLongitud == 0 || prmIndice >= atrLongitud)
-            {
-                prmItem = default(Tipo);
+                //prmItem = default(Tipo);
                 return false;
             }
             prmItem = atrItems[prmIndice];
             return true;
         }
 
-        public bool contieneA(Tipo prmItem)
+        public override bool contieneA(Tipo prmItem)
         {
             foreach (Tipo varItem in atrItems)
             {
@@ -270,7 +242,7 @@ namespace Servicios.Colecciones.Vectoriales
             return false;
         }
 
-        public int encontrarA(Tipo prmItem)
+        public override int encontrarA(Tipo prmItem)
         {
             for (int varIndice = 0; varIndice < atrLongitud; varIndice++)
             {
@@ -283,7 +255,7 @@ namespace Servicios.Colecciones.Vectoriales
             return -1;
         }
 
-        public bool reversar()
+        public override bool reversar()
         {
             if (atrLongitud == 0)
             {

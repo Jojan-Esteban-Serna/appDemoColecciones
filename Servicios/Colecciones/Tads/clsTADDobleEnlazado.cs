@@ -1,16 +1,15 @@
-﻿using Servicios.Colecciones.Interfaces;
+﻿using Servicios.Colecciones.Nodos;
 using System;
 
-namespace Servicios.Colecciones.DobleEnlazadas
+namespace Servicios.Colecciones.Tads
 {
-    public class clsListaDobleEnlazada<Tipo> : iLista<Tipo> where Tipo : IComparable
+    public class clsTADDobleEnlazado<Tipo> : clsTAD<Tipo> where Tipo : IComparable
     {
         #region Atributos
 
-        private clsNodoDobleEnlazado<Tipo> atrPrimero;
-        private clsNodoDobleEnlazado<Tipo> atrUltimo;
-        private int atrLongitud = 0;
-        private int atrBorde = int.MaxValue / 64;
+        protected new int atrBorde = int.MaxValue / 64;
+        protected clsNodoDobleEnlazado<Tipo> atrPrimero;
+        protected clsNodoDobleEnlazado<Tipo> atrUltimo;
 
         #endregion Atributos
 
@@ -18,7 +17,7 @@ namespace Servicios.Colecciones.DobleEnlazadas
 
         #region Constructores
 
-        public clsListaDobleEnlazada()
+        public clsTADDobleEnlazado()
         {
             atrPrimero = new clsNodoDobleEnlazado<Tipo>();
             atrUltimo = new clsNodoDobleEnlazado<Tipo>();
@@ -29,7 +28,7 @@ namespace Servicios.Colecciones.DobleEnlazadas
 
         #region Accesores
 
-        public Tipo[] darItems()
+        public override Tipo[] darItems()
         {
             if (atrLongitud == 0)
             {
@@ -43,11 +42,6 @@ namespace Servicios.Colecciones.DobleEnlazadas
                 varContador++;
             }
             return varItems;
-        }
-
-        public int darLongitud()
-        {
-            return atrLongitud;
         }
 
         public clsNodoDobleEnlazado<Tipo> darPrimero()
@@ -72,7 +66,7 @@ namespace Servicios.Colecciones.DobleEnlazadas
 
         #region Mutadores
 
-        public bool ponerItems(Tipo[] prmItems)
+        public override bool ponerItems(Tipo[] prmItems)
         {
             if (prmItems.Length == 0 || prmItems.Length > atrBorde)
             {
@@ -92,7 +86,7 @@ namespace Servicios.Colecciones.DobleEnlazadas
 
         #region Consultores
 
-        private bool buscarIndice(Tipo prmItem, ref int prmIndice)
+        protected bool buscarIndice(Tipo prmItem, ref int prmIndice)
         {
             if (atrLongitud == 0)
             {
@@ -111,7 +105,7 @@ namespace Servicios.Colecciones.DobleEnlazadas
             return false;
         }
 
-        private bool buscarNodo(int prmIndice, ref clsNodoDobleEnlazado<Tipo> prmNodo)
+        protected bool buscarNodo(int prmIndice, ref clsNodoDobleEnlazado<Tipo> prmNodo)
         {
             if (atrLongitud == 0 || prmIndice < 0 || prmIndice >= atrLongitud)
             {
@@ -134,20 +128,7 @@ namespace Servicios.Colecciones.DobleEnlazadas
 
         #region CRUDs
 
-        public bool agregar(Tipo prmItem)
-        {
-            if (atrLongitud == atrBorde)
-            {
-                return false;
-            }
-
-            clsNodoDobleEnlazado<Tipo> nuevoNodo = new clsNodoDobleEnlazado<Tipo>(atrUltimo.darAnterior(), prmItem, atrUltimo);
-            atrLongitud++;
-
-            return true;
-        }
-
-        public bool contieneA(Tipo prmItem)
+        public override bool contieneA(Tipo prmItem)
         {
             int varIndice = 0;
             if (buscarIndice(prmItem, ref varIndice))
@@ -157,7 +138,7 @@ namespace Servicios.Colecciones.DobleEnlazadas
             return false;
         }
 
-        public int encontrarA(Tipo prmItem)
+        public override int encontrarA(Tipo prmItem)
         {
             int varIndice = 0;
             if (buscarIndice(prmItem, ref varIndice))
@@ -167,7 +148,31 @@ namespace Servicios.Colecciones.DobleEnlazadas
             return -1;
         }
 
-        public bool extraerEn(int prmIndice, ref Tipo prmItem)
+        protected override bool insertar(Tipo prmItem, int prmIndice)
+        {
+            if (atrLongitud == atrBorde)
+            {
+                return false;
+            }
+            if (prmIndice == atrLongitud)
+            {
+                clsNodoDobleEnlazado<Tipo> nuevoNodo = new clsNodoDobleEnlazado<Tipo>(atrUltimo.darAnterior(), prmItem, atrUltimo);
+                atrLongitud++;
+                return true;
+            }
+            clsNodoDobleEnlazado<Tipo> varNodo = null;
+            if (buscarNodo(prmIndice, ref varNodo))
+            {
+                clsNodoDobleEnlazado<Tipo> varAnterior = varNodo.darAnterior();
+                clsNodoDobleEnlazado<Tipo> varNuevoNodo = new clsNodoDobleEnlazado<Tipo>(varAnterior, prmItem, varNodo);
+                atrLongitud++;
+
+                return true;
+            }
+            return false;
+        }
+
+        protected override bool extraer(ref Tipo prmItem, int prmIndice)
         {
             clsNodoDobleEnlazado<Tipo> varNodo = null;
             if (buscarNodo(prmIndice, ref varNodo))
@@ -183,38 +188,7 @@ namespace Servicios.Colecciones.DobleEnlazadas
             return false;
         }
 
-        public bool insertarEn(int prmIndice, Tipo prmItem)
-        {
-            if (prmIndice == atrLongitud)
-            {
-                agregar(prmItem);
-                return true;
-            }
-            clsNodoDobleEnlazado<Tipo> varNodo = null;
-            if (buscarNodo(prmIndice, ref varNodo))
-            {
-                clsNodoDobleEnlazado<Tipo> varAnterior = varNodo.darAnterior();
-                clsNodoDobleEnlazado<Tipo> varNuevoNodo = new clsNodoDobleEnlazado<Tipo>(varAnterior, prmItem, varNodo);
-                atrLongitud++;
-
-                return true;
-            }
-            return false;
-        }
-
-        public bool modificarEn(int prmIndice, Tipo prmItem)
-        {
-            clsNodoDobleEnlazado<Tipo> varNodo = null;
-            if (buscarNodo(prmIndice, ref varNodo))
-            {
-                varNodo.ponerItem(prmItem);
-
-                return true;
-            }
-            return false;
-        }
-
-        public bool recuperarEn(int prmIndice, ref Tipo prmItem)
+        protected override bool recuperar(ref Tipo prmItem, int prmIndice)
         {
             clsNodoDobleEnlazado<Tipo> varNodo = null;
             if (buscarNodo(prmIndice, ref varNodo))
@@ -223,11 +197,11 @@ namespace Servicios.Colecciones.DobleEnlazadas
 
                 return true;
             }
-            prmItem = default(Tipo);
+            //prmItem = default(Tipo);
             return false;
         }
 
-        public bool reversar()
+        public override bool reversar()
         {
             if (atrLongitud == 0)
             {

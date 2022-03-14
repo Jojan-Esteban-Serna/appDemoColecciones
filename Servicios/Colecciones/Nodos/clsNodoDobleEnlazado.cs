@@ -1,14 +1,13 @@
 ﻿using System;
 
-namespace Servicios.Colecciones.DobleEnlazadas
+namespace Servicios.Colecciones.Nodos
 {
-    public class clsNodoDobleEnlazado<Tipo> where Tipo : IComparable
+    public class clsNodoDobleEnlazado<Tipo> : clsNodo<Tipo> where Tipo : IComparable
     {
         #region Atributos
 
         private clsNodoDobleEnlazado<Tipo> atrRefAnterior;
         private clsNodoDobleEnlazado<Tipo> atrRefSiguiente;
-        private Tipo atrItem;
 
         #endregion Atributos
 
@@ -47,11 +46,6 @@ namespace Servicios.Colecciones.DobleEnlazadas
             return atrRefSiguiente;
         }
 
-        public Tipo darItem()
-        {
-            return atrItem;
-        }
-
         #endregion Accesores
 
         #region Mutadores
@@ -68,10 +62,11 @@ namespace Servicios.Colecciones.DobleEnlazadas
             return true;
         }
 
-        public bool ponerItem(Tipo prmItem)
+        public void invertirEnlaces()
         {
-            atrItem = prmItem;
-            return true;
+            clsNodoDobleEnlazado<Tipo> varTemporal = atrRefAnterior;
+            atrRefAnterior = atrRefSiguiente;
+            atrRefSiguiente = varTemporal;
         }
 
         #endregion Mutadores
@@ -97,46 +92,6 @@ namespace Servicios.Colecciones.DobleEnlazadas
         }
 
         #endregion Enlazadores
-
-        #region Desenlazadores
-
-        public void quitarEnlaces()
-        {
-            quitarAnterior();
-            quitarSiguiente();
-        }
-
-        public void quitarAnterior()
-        {
-            atrRefAnterior.ponerSiguiente(null);
-            atrRefAnterior = null;
-        }
-
-        public void quitarSiguiente()
-        {
-            atrRefSiguiente.ponerAnterior(null);
-            atrRefSiguiente = null;
-        }
-
-        #endregion Desenlazadores
-
-        #region Intercambiadores
-
-        public void invertirEnlaces()
-        {
-            clsNodoDobleEnlazado<Tipo> varTemporal = atrRefAnterior;
-            atrRefAnterior = atrRefSiguiente;
-            atrRefSiguiente = varTemporal;
-        }
-
-        public void intercambiarItems(clsNodoDobleEnlazado<Tipo> prmNodoIntercambio)
-        {
-            Tipo varItemTemporal = atrItem;
-            atrItem = prmNodoIntercambio.darItem();
-            prmNodoIntercambio.ponerItem(varItemTemporal);
-        }
-
-        #endregion Intercambiadores
 
         #endregion Metodos
     }

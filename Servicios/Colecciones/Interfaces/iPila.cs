@@ -9,7 +9,5 @@ namespace Servicios.Colecciones.Interfaces  //Capas
         bool desapilar(ref Tipo prmItem);
 
         bool revisar(ref Tipo prmItem);
-
-        bool reversar();
     }
 }

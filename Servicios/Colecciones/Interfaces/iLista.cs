@@ -2,7 +2,7 @@
 
 namespace Servicios.Colecciones.Interfaces
 {
-    internal interface iLista<Tipo> where Tipo : IComparable
+    public interface iLista<Tipo> where Tipo : IComparable
     {
         bool agregar(Tipo prmItem);
 
@@ -13,11 +13,5 @@ namespace Servicios.Colecciones.Interfaces
         bool modificarEn(int prmIndice, Tipo prmItem);
 
         bool recuperarEn(int prmIndice, ref Tipo prmItem);
-
-        bool contieneA(Tipo prmItem);
-
-        int encontrarA(Tipo prmItem);
-
-        bool reversar();
     }
 }
