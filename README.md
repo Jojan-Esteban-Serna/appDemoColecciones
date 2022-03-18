@@ -19,7 +19,7 @@
 
 </div>
 
-## Documentacion
+## Documentación
 
 <div align="center">
 
