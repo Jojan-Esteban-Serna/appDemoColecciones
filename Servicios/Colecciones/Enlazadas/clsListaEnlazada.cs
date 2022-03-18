@@ -22,16 +22,7 @@ namespace Servicios.Colecciones.Enlazadas
 
         public bool agregar(Tipo prmItem)
         {
-            if (atrLongitud == atrBorde)
-            {
-                return false;
-            }
-
-            clsNodoEnlazado<Tipo> nuevoNodo = new clsNodoEnlazado<Tipo>(atrPenultimo, prmItem, atrUltimo);
-            atrPenultimo = nuevoNodo;
-            atrLongitud++;
-
-            return true;
+            return insertar(prmItem, atrLongitud);
         }
 
         public bool extraerEn(int prmIndice, ref Tipo prmItem)
