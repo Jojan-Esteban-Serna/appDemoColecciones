@@ -3,10 +3,10 @@
 Este es un proyecto de estructuras de datos
 
 
-# Tabla de Contenidos
+## Tabla de Contenidos
 
-# ¿Como instalar?
+## ¿Como instalar?
 
-# ¿Como usar?
+## ¿Como usar?
 
-# Ejemplos
+## Ejemplos
