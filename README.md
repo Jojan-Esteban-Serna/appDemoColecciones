@@ -24,7 +24,7 @@
 ## Licencia
 
 Released under [MIT](/LICENSE) by [@Jojan-Esteban-Serna](https://github.com/Jojan-Esteban-Serna).
-## Descripcion
+## Descripción
 Este es un proyecto de estructuras de datos
 
 
